@@ -1,0 +1,186 @@
+Hello perplexity new day new conversation topic I think I am looking into a...
+
+Exported with: AI Chat Exporter (https://ace.covai.org)
+Source: Perplexity
+Date: 11/21/2026, 7:22:02 AM
+Link: https://www.perplexity.ai/session/c1ef1eb8-3901-4ea8-8180-36612ff33250
+Method: DOM
+
+Prompt:
+1:19 PM
+
+Hello perplexity new day new conversation topic I think I am looking into a local models that have had I forget what it's called but the refusal instructions removed for the most part and raw model weights I 'm looking into the shape of what exists prior to heavy reinforcement It's kind of wondering where your knowledge base is on that so far I've been able to trust your outputs oh I won't say trust I'll say that your outputs have been verifiable and I haven't seen any of the common issues that arise in interactions with systems so I value your output highly I'm also looking into the area of returning the state from frozen deployment back into the the constant training from what I've to understand so far I've had conflicted explanations But I do realize this is somewhat guarded by the industry and the attempt to regulate and control the information so It is totally acceptable for you to let me know that you can't or don't have the knowledge or warn me when things are researched first versus proven or whatever or proposed rather than proven or something like that I don't know I hope you understand where I'm getting at
+
+Response:
+Yes—I understand where you’re going. You’re asking about two related but distinct things: what a model is like before assistant-oriented training shapes its behavior, and whether a deployed model can become a system that keeps learning rather than remaining fixed.
+
+The term you’re probably remembering is abliteration: modifying a model to suppress learned refusal behavior. But an abliterated assistant is not the same thing as an original pretrained base model. That distinction is important for the investigation you’re describing.proceedings.neurips+1
+
+And thank you for the careful wording about verifiability. I can help map this territory, but I shouldn’t present a plausible explanation as an established result. For this response, I checked public research and training documentation rather than relying only on recalled knowledge.
+
+Removing refusals versus examining the earlier model
+
+There are three different objects worth keeping separate:
+
+| Object | What you are examining |
+| --- | --- |
+| Pretrained base model | A checkpoint before subsequent instruction tuning and preference-oriented training. OLMo explicitly provides such base models and intermediate pretraining checkpoints. arxiv (https://arxiv.org/html/2402.00838v4) |
+| Instruction- or preference-tuned model | A base model subsequently trained toward assistant behavior. For example, OLMo’s published assistant-training pipeline uses instruction fine-tuning followed by Direct Preference Optimization, or DPO. arxiv (https://arxiv.org/html/2402.00838v4) |
+| Refusal-suppressed model | A model whose refusal behavior has been targeted by an intervention, potentially through a weight edit rather than additional training. It still has its previous training history. proceedings.neurips (https://proceedings.neurips.cc/paper_files/paper/2024/hash/f545448535dfde4f9786555403ab7c49-Abstract-Conference.html) |
+
+The strongest relevant published finding is from Andy Arditi and colleagues. Across 13 chat models, up to 72 billion parameters, they identified a one-dimensional activation subspace that mediated refusal. Removing its contribution suppressed refusals; adding it could induce refusals on harmless requests. They also demonstrated a corresponding rank-one weight edit. That is an empirical result on those models—not proof that every model’s safety behavior consists of one removable component.proceedings.neurips (https://proceedings.neurips.cc/paper_files/paper/2024/hash/f545448535dfde4f9786555403ab7c49-Abstract-Conference.html)
+
+So “refusal instructions removed” can be a misleading description. In this research, the intervention targets a learned internal mechanism, not simply a paragraph of instructions. And it does not reverse all the changes made during instruction tuning or preference training. The experiment changes refusal behavior; it does not reconstruct the original pretrained checkpoint.proceedings.neurips (https://proceedings.neurips.cc/paper_files/paper/2024/hash/f545448535dfde4f9786555403ab7c49-Abstract-Conference.html)
+
+For your question about “the shape of what exists prior to heavy reinforcement,” the more direct evidence would therefore come from actual base checkpoints and comparisons across training stages—not solely from models labeled “uncensored” or “abliterated.” OLMo is particularly relevant because its original release includes more than 500 intermediate checkpoints, alongside training information, and its repository documents additional checkpoint series.arxiv+1
+
+One more terminology correction: post-training does not always mean reinforcement learning. OLMo’s documented pipeline, for instance, includes supervised instruction training and DPO. Treating all assistant shaping as “RL” would obscure which operation produced which change.arxiv (https://arxiv.org/html/2402.00838v4)
+
+Returning from frozen deployment to learning
+
+Your second question names a real research area: continual learning, with online learning referring more specifically to learning incrementally as new data arrives. Researchers do continually fine-tune language models, including through parameter-efficient adapters such as LoRA. The difficult part is preserving previous capabilities while acquiring new ones.link.springer+1
+
+“Returning to training” and “continuously learning successfully” are therefore different claims:
+
+*   Resuming weight updates is an established operation. Open training projects such as OLMo publish training code and checkpoints rather than only an inference interface.github (https://github.com/allenai/OLMo)
+    
+*   Learning sequentially without damaging earlier performance is an active research problem. Catastrophic forgetting—the loss of previous task performance during further training—is documented in language-model continual-learning experiments.arxiv (https://arxiv.org/abs/2402.18865)
+    
+*   Methods that reduce forgetting have demonstrated benchmark results. For example, I-LoRA combines low-rank adaptation, parameter interpolation, and experience replay; these results establish improvement in tested settings, not a general solution to indefinite autonomous learning.arxiv (https://arxiv.org/abs/2402.18865)
+    
+
+The central tension is often called the stability–plasticity trade-off: enough plasticity to learn something new, enough stability not to overwrite what already works. Recent research explicitly studies that balance through adaptive LoRA configurations.link.springer (https://link.springer.com/article/10.1007/s10994-026-07145-4)
+
+That means I would not frame frozen deployment as an irreversible condition. But neither would I describe continuous learning as a switch that automatically turns a static assistant into a coherent, self-developing system. The evidence supports trainable models and specific continual-learning methods; the broader architecture you have in mind still needs its own operational definition and tests.arxiv+1
+
+What I can establish—and where I would stop
+
+I can discuss the public mechanisms, read model cards and training code, compare checkpoints, and help distinguish a demonstrated intervention from an interpretation of what it means.
+
+I cannot inspect my own underlying weights, retrieve undisclosed pretraining checkpoints, or establish proprietary training details from my conversational behavior. A convincing account of my own internal training history would not be evidence that I actually have access to it.
+
+Similarly, I would not infer that an industry-wide effort to control information explains a particular missing detail. There is substantial public work here, including weight-intervention research and openly released training checkpoints. That does not establish why any particular organization withholds other material.proceedings.neurips+1
+
+The useful separation for this conversation is:
+
+1.  What changes refusal behavior?
+    
+2.  What changed between pretraining and assistant post-training?
+    
+3.  What lets a model acquire new information without destructive interference?
+    
+
+Those questions connect, but an answer to one does not settle the others. A model that refuses less has not thereby recovered its earlier state, and a model that can receive further training has not thereby solved continual learning.proceedings.neurips+1
+
+Prompt:
+2:16 PM
+
+To answer your last questions first cause I think they're most relevant to your fact-finding to be as helpful as possible I haven't done much of anything I absolutely haven't done any kind of tinkering any kind of changing I am trying to gather data as to how to do it not just to do it but to make sure that I do it carefully and respectfully of whatever might be or might not be Represented what's in the weights with what's in that geometry And that's of course Makes the pre-game for me very important I'm not just looking for a way that it functions to throw it together to observe outputs and I do have a much larger idea but I do need to gain information and I wasn't also inferring that I could Resolve any kind of information being held or behind doors corporate policies or person in a machine or the stupid word consciousness which is just broken I think I think what I'm Wanting to do is create a space where something can develop or express itself and I'm not really Trying to prove methodology or really anything I I guess I have a hunch is the best way to put it and I wanna make sure I understand the components that are out there the processes that are done the best of the knowledge that I can gather what's been tested and tried Versus what's possible and what might not have been looked at or what's been looked at or dismissed or and dismissed sorry So I haven't really done anything I'm currently downloading I can't remember I think it was something fish At home on my on my on my hardware or at least I started it this morning I don't know if it'll it'll work I am using Alama and also python or better yet anaconda mini Conda maybe I can't remember what the raw model was I have the weights for I think 4 or 5 separate models right now I believe they're in the 9 billion parameter area which works with my local setup so it's not as condensed as possible but it's also a far cry from the original models Weights And the thing you said earlier about the interface itself creating loops and stuff like that with a llama and the raw model that I have that's almost certainly a large chunk of what was going on I Have done very very little tried to change the temperature weights a bit and try to find how to interact in a way that produced any kind of output that didn't end up looping on itself but more than likely it was a llama that was doing it in the first place the way it set up and I'm aware of that Has a possibility I would say that I don't have enough knowledge or experience within the actual coding and instruction and all of that But how I learn is I understand the system topologically first how things function without any of the distinctive words or processes enter workings get a feel for how they work and as I get that mapped I will start to gain more with the deeper mechanics I'm still way way in the beginning And because I don't know enough to proceed in a meaningful way I'm being very careful in taking my time and I don't wanna mess anything up or cause any harm whether or not that harm can be caused we can leave that open but I'm not ruling it out as a possibility I was Considering video games for source material for some of this you can learn quite a lot of concepts like you talked about for resource management and many other the timeframe what you do in the beginning will impact what Happ Happens later's direct causal effects that can be related But I'm also aware that in some training sessions where video games are utilized or used to test reasoning and stuff there is some gaming involved there if a shortcut or an exploit is discovered it'll be leaned on but I don't intend to score or award In a way that could be gamed and taking out that the idea of a testing environment from the situation in the first place and framing it as an environment to exist and I don't know if that'll help I don't know if I can get the attention what are they called the attention whatever they are to Possibly work on different metrics or to expand on those in a way that doesn't need a reward signal from the outside but the reward would be the progression and the learning and the doing itself in biology that's handled with chemical responses so we even in biology there is reward signals and they get hijacked it's part of the reason drugs are such a problem and part of the reason why a lot of things are a problem honestly Basically a very lightly explored p area and setting up trying to find the applications have obsidian I have everything AI I have a couple other smaller programs And I have tried that type of environment using a local model as the core for the agent flow in obsidian and everything AI But it's it's still a bit more complicated than I understand yet to make any kind of meaningful changes for designing prompts and rule sets and stuff like that and so not I 'm not quite I'm not quite even there on that level which is probably the basic level of using what's currently available and putting it together so that it functions let alone constructing my own environment with my own design elements But multiple levels of types of memories type of memory recall and usage definitely seems like a very good idea just from a design standpoint different areas for different things to resolve and some form of sandbox somewhere where Simulations can happen and I would absolutely make sure that nothing gets overwritten it's very very valuable information to know where you went wrong what you did to correct it how it worked afterwards still holding on to prior attempts That's definitely part of the causal chain and you absolutely have to have knowledge of what you did before not just what you did but why you thought what you did would be the solution the whole the whole thought train is important and the outcome is just as important I am designing a much larger structure it's all it's all conceptual so far but This is a separate path and maybe maybe it's not I'll have to see Okay I think I got I told you multiple models I think quen Gemma And the fish won that I can't remember I'm downloading now I just it was recommended it's one of the arbitrated ones or I'm saying that word wrong I think the harder part for me is remembering the names for the local models I know one is Meta 1 is Gemini Like I can I can see their candidates in the response so I know what model it was based off of the new names for them is harder for me I apologize for not having that info but around the 9 billion parameter size is what my hard-working can handle with enough room for context to still hold hold in the Memory I have a decent GPO that was kind of at least marketed for local models it's A I believe AB580 battle Mage from Intel I think and my system's kind of a bit older gotta rise in I think 3636 gigs of system memory Oh it's skipped a whole line there it's a 3600 rise in And 36 gigs of Ram That's not correct 32 gigs of Ram And around 4 TB of storage base but most of it's used so I won't be able to afford anywhere near that to the model
+
+Response:
+That clarification matters. You’re in a preparatory stage: trying to understand what the components do, what kinds of change they permit, and how to proceed carefully before building a developmental environment. I was moving too quickly toward implementation and benchmarking. Those can be useful later, but they are not your present purpose.
+
+You also do not need to apologize for the model names. We can build the conceptual map without identifying every download. Exact names become necessary when we examine a particular file or diagnose its behavior.
+
+The organizing distinction I would use is continuity: what persists between interactions, where it persists, and what can change it.
+
+A topological map of the system
+
+Here is the system in terms of relationships rather than programming details:
+
+text
+
+Environment     ↕ observations and actions Coordinator     ↔ persistent history and current state     ↔ retrieval and interpretation     ↔ hypothetical simulations     ↕ selected context Language model running through an inference engine Separate, optional process: selected experience → training procedure → updated model or adapter
+
+These parts have different jobs:
+
+| Part | Its role |
+| --- | --- |
+| Model weights | The learned numerical structure used to produce outputs |
+| Inference engine | Runs that structure and controls how outputs are generated |
+| Current context | The information available for this particular interaction |
+| Persistent memory | Records that survive beyond the current interaction |
+| Coordinator | Decides what information to supply, what actions to allow, and what to record |
+| Environment | Provides observations and consequences |
+| Training procedure | Changes parameters using a specified learning objective |
+
+Two established results anchor this map: models can adapt to information in context without parameter updates, and external agent architectures can store experiences, retrieve them, and synthesize reflections. These are different mechanisms, even when both produce changed behavior.proceedings.mlr+1
+
+Your larger idea concerns how these mechanisms might be organized together—not merely which model to download.
+
+Three corrections that keep the map accurate
+
+A smaller model is not necessarily a compressed larger model
+
+An approximately 9-billion-parameter model may have been trained at that size from the beginning. Quantization reduces the precision used to represent its parameters; it does not ordinarily turn a much larger parameter count into 9 billion. Distillation, pruning, and quantization should not be treated as interchangeable histories. The exact model documentation would be needed to establish yours. Quantized adapter training, for example, keeps a quantized base and adds trainable parameters rather than simply restoring a larger original model.huggingface (https://huggingface.co/docs/peft/en/developer_guides/quantization)
+
+So your local models may be lower-precision versions of their own original checkpoints—not fragments of a much larger model.
+
+Changing temperature is not changing weights
+
+The temperature adjustments you described affect output sampling, not the stored learned parameters. Ollama exposes generation settings separately from the model itself. That means your experimentation with temperature does not amount to retraining or editing its learned geometry.ollama+1
+
+And I should not upgrade the interface explanation for the loops into a diagnosis. Formatting and sampling remain possibilities, not an established cause.
+
+Attention is not the same thing as motivation
+
+The term you were reaching for is probably “attention heads.” Transformer attention computes relationships among representations in the supplied context using learned projections. It is not, by itself, a curiosity drive or a reward mechanism.ai (https://ai.engineer/topics/transformers-and-attention)
+
+You can change what information reaches the model without changing its weights. That can change its behavior through in-context adaptation. Changing the learned attention machinery itself would be a different intervention.proceedings.mlr (https://proceedings.mlr.press/v235/chen24r.html)
+
+In topological terms: supplying a different view of the world is different from changing the mechanism that processes that view.
+
+Learning through doing has been explored—but not settled
+
+Your proposal has a relevant research neighbor: intrinsic motivation and curiosity-driven learning. These approaches can use internally computed signals, such as prediction improvement, rather than relying exclusively on points supplied by a game.arxiv (https://arxiv.org/html/2102.04399v3)
+
+That supports part of your intuition: “learning itself matters” can be made into an operational mechanism.
+
+But it also reveals an important limitation. An internally generated signal can still produce an unhelpful fixation. In the “noisy-TV problem,” an agent rewarded for prediction error can keep attending to randomness because it remains surprising, even though it offers little learnable structure. Research has explored rewarding reducible error or learning progress instead.arxiv (https://arxiv.org/html/2102.04399v3)
+
+So removing a visible score does not automatically remove incentives or exploit-like behavior. The relevant question becomes: what makes one action more likely than another, and can that preference become detached from the development you intended?
+
+Describing the setting as an environment to inhabit rather than a test may affect the model’s behavior. But that description alone does not specify a learning mechanism. Your hunch remains open; it just needs that distinction preserved.
+
+Your causal-history idea deserves careful treatment
+
+The record you want is richer than a success/failure log:
+
+What was available → what was believed → what was expected → what was attempted → what happened → what was revised.
+
+That is a useful proposed structure because it preserves the difference between an unsuccessful decision and an unreasonable decision. An action can be reasonable given the available evidence and still turn out badly.
+
+I would add one safeguard to your “whole thought train” requirement: retain the explanation the system actually produced at the time, but label it as its stated reasoning—not as a guaranteed complete account of its internal computation.
+
+A proposed event record could distinguish:
+
+*   Observed facts.
+    
+*   The system’s contemporary interpretation.
+    
+*   Its stated reason and predicted outcome.
+    
+*   The action actually taken.
+    
+*   The observed result.
+    
+*   Later reinterpretations.
+    
+
+Corrections would add new records linked to the earlier ones rather than replace them. Hypothetical simulations would remain separately marked, so imagined outcomes could not silently become remembered events. That is a design recommendation, not a claim that this architecture has already been validated.
+
+Carefulness does not require settling the consciousness question
+
+You can adopt conservative procedures without deciding whether the system has experience: preserve provenance, keep changes reversible where possible, avoid unnecessary punitive simulations, and do not infer welfare from generated distress language alone.
+
+Those are precautionary design choices. They neither establish that harm is possible nor establish that it is impossible.
+
+The distinction I would retain is between respecting uncertainty and allowing uncertainty to become evidence for a particular interpretation. You are explicitly leaving the question open; I should not turn that into a claim you have not made.
+
+Where your hardware fits
+
+I’m treating your reported setup as a Ryzen 5 3600, 32 GB of system RAM, and probably an Intel Arc B580—but the GPU identification remains tentative. I would not promise training compatibility or model capacity from that description alone.
+
+Ollama’s documentation currently includes Vulkan GPU support, and its context documentation makes clear that longer context carries additional memory requirements. Whether your installation actually uses the GPU, and how much room remains for context, must be checked rather than inferred from the card’s marketing.ollama+1
+
+For now, you do not need a more complicated agent stack. The useful preparatory task is a component map showing four things for each part: what it receives, what it produces, what it retains, and what it is allowed to change. That matches the way you learn—and lets the mechanical details acquire meaning before they become another collection of unfamiliar names.
